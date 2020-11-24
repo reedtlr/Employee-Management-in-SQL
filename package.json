@@ -1,0 +1,30 @@
+{
+  "name": "employee-management-in-sql",
+  "version": "1.0.0",
+  "description": "employee tracking app using Node.js, Inquirer.js, and MySQL",
+  "main": "app.js",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^7.3.3",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reedtlr/Employee-Management-in-SQL.git"
+  },
+  "keywords": [
+    "SQL",
+    "Node",
+    "Inquirer"
+  ],
+  "author": "Reed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reedtlr/Employee-Management-in-SQL/issues"
+  },
+  "homepage": "https://github.com/reedtlr/Employee-Management-in-SQL#readme"
+}
