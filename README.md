@@ -2,14 +2,14 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
-Employee maangement application using MySQL
+Employee management application using MySQL
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Install](#install)
 
 ## General info
-This is a employee maangement program for adding, editing, and deleting employees based on their role, department, and manager.  
+This is a employee management program for adding, editing, and deleting employees based on their role, department, and manager.  
 	
 ## Technologies
 Project is created with:
