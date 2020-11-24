@@ -89,7 +89,6 @@ const addEmployee = async () => {
       return res;
     }
   );
-  console.log(roles)
 
   // const employees = await connection.query(
   //   'SELECT * FROM employee',
