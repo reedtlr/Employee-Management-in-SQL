@@ -14,8 +14,9 @@ This is a employee management program for adding, editing, and deleting employee
 ## Technologies
 Project is created with:
 * Javascript
-* Node.js, Inquirer NPM, console.table NPM 
-* MySQL
+* Node.js 
+* Inquirer NPM, console.table NPM, uuid NPM
+* MySQL, mysql NPM
 
 ## Install
 Download the repository. Make sure you have node.js installed. Open your terminal and run
