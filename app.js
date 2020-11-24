@@ -19,4 +19,53 @@ var connection = mysql.createConnection({
     console.log("connected as id " + connection.threadId + "\n");
   });
 
+  const runProgram = () => {
+    inquirer
+      .prompt({
+        name: 'action',
+        type: 'list',
+        message: 'What would you like to do?',
+        choices: [
+          'View all employees?',
+          'View all employees by department?',
+          'View all employees by manager?',
+          'Add employee',
+          'Update employee role',
+          'Update employee maanger',
+          'exit',
+        ],
+      })
+      .then((answer) => {
+        switch (answer.action) {
+          case 'View all employees?':
+            viewAllEmployees();
+            break;
   
+          case 'View all employees by department?':
+            viewAllEmployeesByDepartment();
+            break;
+  
+          case 'View all employees by manager?':
+            viewAllEmployeesByManager();
+            break;
+  
+          case 'Add employee':
+            addEmployee();
+            break;
+  
+          case 'Update employee role':
+            changeEmployeeRole();
+            break;
+
+          case 'Update employee maanger':
+            changeEmployeeManager();
+            break;
+          
+          case 'exit':
+            connection.end();
+            break;
+        }
+      });
+  };
+
+runProgram();
