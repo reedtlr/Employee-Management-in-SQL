@@ -19,7 +19,8 @@
   "keywords": [
     "SQL",
     "Node",
-    "Inquirer"
+    "Inquirer",
+    "console.table"
   ],
   "author": "Reed",
   "license": "ISC",
