@@ -9,19 +9,9 @@ CREATE TABLE employee (
   last_name VARCHAR(30) NULL,
   rolde_id INT NULL,
   manager_id INT NULL,
-  PRIMARY KEY (position)
-);
-
-CREATE TABLE role (
-  position INT NOT NULL,
   title VARCHAR(30) NULL,
- salary DECIMAL(15,4) NULL,
+  salary DECIMAL(15,4) NULL,
   department_id INT NULL,
-  PRIMARY KEY (position)
-);
-
-CREATE TABLE department (
-  position INT NOT NULL,
-  name VARCHAR(30) NULL,
+  department VARCHAR(30) Null,
   PRIMARY KEY (position)
 );
