@@ -80,27 +80,15 @@ var connection = mysql.createConnection({
 
 const addEmployee = async () => {
   try {
-  const roles = await connection.query(
+  await connection.query(
     'SELECT * FROM role',
-    (err, res) => {
+    async (err, res) => {
       if (err) throw err;
-      console.log("Role Table:" + '\n');
-      console.table(res);
-      return res;
-    }
-  );
+      // console.log("Role Table:" + '\n');
+      // console.table(res);
+     const roles = res.map(role => role.title)
 
-  // const employees = await connection.query(
-  //   'SELECT * FROM employee',
-  //   (err, res) => {
-  //     if (err) throw err;
-  //     console.log("Employee Table:" + '\n');
-  //     console.table(res);
-      
-  //   }
-  // );
-
-await inquirer
+      await inquirer
   .prompt([
     {
       type: "input",
@@ -116,7 +104,7 @@ await inquirer
       type: "list",
       name: "role_id",
       message: "Enter your employee's role id from the table above",
-      choices: roles.map(role => ({value: role.id, name: role.title}))
+      choices: roles
     },
     {
       name: "manager_id",
@@ -139,6 +127,20 @@ await inquirer
   }
 )
   })
+    }
+  );
+
+  // const employees = await connection.query(
+  //   'SELECT * FROM employee',
+  //   (err, res) => {
+  //     if (err) throw err;
+  //     console.log("Employee Table:" + '\n');
+  //     console.table(res);
+      
+  //   }
+  // );
+ console.log(roles)
+
   } catch (error){
     console.log(error)
   }
