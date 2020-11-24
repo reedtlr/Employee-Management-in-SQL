@@ -70,10 +70,10 @@ var connection = mysql.createConnection({
 
 const viewAllEmployees = () => {
     connection.query(
-        'SELECT * FROM mployee_track_DB',
+        'SELECT * FROM employee',
         (err, res) => {
           if (err) throw err;
-          console.table(['id', 'first_name', 'last_name', 'title', 'department', 'salary', 'manager'], values);
+          console.table(['position', 'first_name', 'last_name', 'title', 'department', 'salary', 'manager'], values);
           runProgram();
         }
       );
