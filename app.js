@@ -68,4 +68,15 @@ var connection = mysql.createConnection({
       });
   };
 
+const viewAllEmployees = () => {
+    connection.query(
+        'SELECT * FROM mployee_track_DB',
+        (err, res) => {
+          if (err) throw err;
+          console.table(['id', 'first_name', 'last_name', 'title', 'department', 'salary', 'manager'], values);
+          runProgram();
+        }
+      );
+}
+
 runProgram();
