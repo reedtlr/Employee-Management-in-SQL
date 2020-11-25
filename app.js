@@ -26,9 +26,9 @@ var connection = mysql.createConnection({
           'View all employees?',
           'View all roles?',
           'View all departments?',
-          'View all employees by department?',
-          'View all employees by manager?',
           'Add employee',
+          'Add role',
+          'Add department',
           'Update employee role',
           'Update employee maanger',
           'exit',
@@ -47,17 +47,17 @@ var connection = mysql.createConnection({
           case 'View all departments?':
             viewAllDepartments();
             break;
-    
-          case 'View all employees by department?':
-            viewAllEmployeesByDepartment();
-            break;
-  
-          case 'View all employees by manager?':
-            viewAllEmployeesByManager();
-            break;
   
           case 'Add employee':
             addEmployee();
+            break;
+
+          case 'Add role':
+            addRole();
+            break;
+
+          case 'Add department':
+            addDepartment();
             break;
   
           case 'Update employee role':
@@ -76,7 +76,6 @@ var connection = mysql.createConnection({
   };
 
 const addEmployee = async () => {
-
   try {
   
     const firstQuery = () => {
@@ -85,10 +84,9 @@ const addEmployee = async () => {
           'SELECT * FROM role',
           async (err, res) => {
             if (err) throw err;
-           const roles = res.map(role => role.title)
+            const roles = res.map(role => role.title)
           }, resolve)  
-        
-     })
+      })
     }
     
     const secondQuery = () => {
@@ -97,16 +95,14 @@ const addEmployee = async () => {
           'SELECT * FROM employee',
           async (err, managerRes) => {
             if (err) throw err;
-           const employeeManagers = managerRes.filter(employee => {
-            if (employee.manager_id == null){
+            const employeeManagers = managerRes.filter(employee => {
+              if (employee.manager_id == null){
               return employee;
-            }})}, resolve) 
-      
-     })
+            }})
+          }, resolve) 
+      })
     }
     
-   
-
     const myFunc = async () => {
         let firstData = await firstQuery()
         let secondData = await secondQuery()
@@ -127,19 +123,18 @@ const addEmployee = async () => {
         type: "list",
         name: "title",
         message: "Select your employee's role from the list below",
-        choices: roles
+        choices: firstData
       },
       {
         type: "list",
         name: "manager_id",
         message: "What is your employee's maanger's id?",
-        choices: employeeManagers,
-        default: "null"
+        choices: secondData
       },
     ])
     .then((response) => {
       connection.query(
-      'INSERT INTO employee, role SET ?',
+      'INSERT INTO employee SET ?',
       {
         first_name: response.first_name,
         last_name: response.last_name,
@@ -191,5 +186,50 @@ const viewAllDepartments = () => {
       }
     );
 }
+
+const addRole = async () => {
+    
+  connection.query('SELECT * FROM department',
+    async (err, dRes) => {
+      if (err) throw err;
+      const departmentChoice = dRes.map(department => department.name)
+    }, resolve)  
+  
+  
+  await inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "title",
+        message: "What is the title of the role you want to add?",
+      },
+      {
+        type: "input",
+        name: "salary",
+        message: "What is the salary for this role?"
+      },
+      {
+        type: "list",
+        name: "department_id",
+        message: "Which department should house this role?",
+        choices: departmentChoice
+      },
+    ])
+    .then((response) => {
+      connection.query(
+      'INSERT INTO role SET ?',
+      {
+        title: response.title,
+        salary: response.salary,
+        department_id: response.department_id
+      },
+      (err) => {
+        if (err) throw err;
+        console.log("successfully added a role")
+        runProgram();
+      })
+    })
+}
+
 
 runProgram();
