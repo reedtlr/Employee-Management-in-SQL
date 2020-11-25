@@ -4,11 +4,8 @@ const cTable = require('console.table')
 
 var connection = mysql.createConnection({
     host: 'localhost',
-    // Your port; if not 3306
     port: 3306,
-    // Your username
     user: 'root',
-    // Your password
     password: 'root',
     database: 'employee_track_DB',
   });
@@ -87,12 +84,9 @@ const addEmployee = async () => {
           'SELECT * FROM role',
           async (err, res) => {
             if (err) throw err;
-            // console.log("Role Table:" + '\n');
-            // console.table(res);
            const roles = res.map(role => role.title)
           }, resolve)  
         
-        // connection.query(firstQuery, resolve)
      })
     }
     
@@ -102,13 +96,11 @@ const addEmployee = async () => {
           'SELECT * FROM employee',
           async (err, managerRes) => {
             if (err) throw err;
-            // console.log("Role Table:" + '\n');
-            // console.table(res);
            const employeeManagers = managerRes.filter(employee => {
             if (employee.manager_id == null){
               return employee;
             }})}, resolve) 
-        // connection.query(firstQuery, resolve)
+      
      })
     }
     
@@ -150,7 +142,6 @@ const addEmployee = async () => {
   {
     first_name: response.first_name,
     last_name: response.last_name,
-    // role_id: response.role_id,
     manager_id: response.manager_id,
     title: response.title
   },
@@ -158,22 +149,9 @@ const addEmployee = async () => {
     if (err) throw err;
     console.log("successfully added employee")
     runProgram();
-  }
-)
+  })
   })
  
-
-  // const employees = await connection.query(
-  //   'SELECT * FROM employee',
-  //   (err, res) => {
-  //     if (err) throw err;
-  //     console.log("Employee Table:" + '\n');
-  //     console.table(res);
-      
-  //   }
-  // );
-//  console.log(roles)
-
  } } catch (error){
     console.log(error)
   }
