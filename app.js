@@ -80,14 +80,43 @@ var connection = mysql.createConnection({
 
 const addEmployee = async () => {
   try {
-  connection.query(
-    'SELECT * FROM role, employee',
-    async (err, res) => {
-      if (err) throw err;
-      // console.log("Role Table:" + '\n');
-      // console.table(res);
-     const roles = res.map(role => role.title)
-     const employeeManagers = res.map(employee => employee.manager_id != null)
+  
+    const firstQuery = () => {
+      return new Promise (resolve => {
+        connection.query(
+          'SELECT * FROM role',
+          async (err, res) => {
+            if (err) throw err;
+            // console.log("Role Table:" + '\n');
+            // console.table(res);
+           const roles = res.map(role => role.title)
+          }, resolve)  
+        
+        // connection.query(firstQuery, resolve)
+     })
+    }
+    
+    const secondQuery = () => {
+      return new Promise (resolve => {
+        connection.query(
+          'SELECT * FROM employee',
+          async (err, managerRes) => {
+            if (err) throw err;
+            // console.log("Role Table:" + '\n');
+            // console.table(res);
+           const employeeManagers = managerRes.filter(employee => {
+            if (employee.manager_id == null){
+              return employee;
+            }})}, resolve) 
+        // connection.query(firstQuery, resolve)
+     })
+    }
+    
+   
+
+    const myFunc = async () => {
+        let firstData = await firstQuery()
+        let secondData = await secondQuery()
 
       await inquirer
   .prompt([
@@ -103,25 +132,27 @@ const addEmployee = async () => {
     },
     {
       type: "list",
-      name: "role_id",
-      message: "Enter your employee's role id from the table above",
+      name: "title",
+      message: "Select your employee's role from the list below",
       choices: roles
     },
     {
       type: "list",
       name: "manager_id",
       message: "What is your employee's maanger's id?",
-      choices: employeeManagers
+      choices: employeeManagers,
+      default: "null"
     },
   ])
   .then((response) => {
     connection.query(
-  'INSERT INTO employee SET ?',
+  'INSERT INTO employee, role SET ?',
   {
     first_name: response.first_name,
     last_name: response.last_name,
-    role_id: response.role_id,
-    manager_id: response.manager_id
+    // role_id: response.role_id,
+    manager_id: response.manager_id,
+    title: response.title
   },
   (err) => {
     if (err) throw err;
@@ -130,8 +161,7 @@ const addEmployee = async () => {
   }
 )
   })
-    }
-  );
+ 
 
   // const employees = await connection.query(
   //   'SELECT * FROM employee',
@@ -142,12 +172,12 @@ const addEmployee = async () => {
       
   //   }
   // );
- console.log(roles)
+//  console.log(roles)
 
-  } catch (error){
+ } } catch (error){
     console.log(error)
   }
-
+  myFunc();
 }
 
 const viewAllEmployees = () => {
