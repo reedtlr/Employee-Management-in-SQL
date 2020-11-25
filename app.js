@@ -80,13 +80,14 @@ var connection = mysql.createConnection({
 
 const addEmployee = async () => {
   try {
-  await connection.query(
-    'SELECT * FROM role',
+  connection.query(
+    'SELECT * FROM role, employee',
     async (err, res) => {
       if (err) throw err;
       // console.log("Role Table:" + '\n');
       // console.table(res);
      const roles = res.map(role => role.title)
+     const employeeManagers = res.map(employee => employee.manager_id != null)
 
       await inquirer
   .prompt([
@@ -107,8 +108,10 @@ const addEmployee = async () => {
       choices: roles
     },
     {
+      type: "list",
       name: "manager_id",
-      message: "What is your employee's maanger's id?"
+      message: "What is your employee's maanger's id?",
+      choices: employeeManagers
     },
   ])
   .then((response) => {
