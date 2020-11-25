@@ -76,6 +76,7 @@ var connection = mysql.createConnection({
   };
 
 const addEmployee = async () => {
+
   try {
   
     const firstQuery = () => {
@@ -110,52 +111,52 @@ const addEmployee = async () => {
         let firstData = await firstQuery()
         let secondData = await secondQuery()
 
-      await inquirer
-  .prompt([
-    {
-      type: "input",
-      name: "first_name",
-      message: "What is the employee's first name?",
-    },
-    {
-      type: "input",
-      name: "last_name",
-      message: "What is your employee's last name?"
-    },
-    {
-      type: "list",
-      name: "title",
-      message: "Select your employee's role from the list below",
-      choices: roles
-    },
-    {
-      type: "list",
-      name: "manager_id",
-      message: "What is your employee's maanger's id?",
-      choices: employeeManagers,
-      default: "null"
-    },
-  ])
-  .then((response) => {
-    connection.query(
-  'INSERT INTO employee, role SET ?',
-  {
-    first_name: response.first_name,
-    last_name: response.last_name,
-    manager_id: response.manager_id,
-    title: response.title
-  },
-  (err) => {
-    if (err) throw err;
-    console.log("successfully added employee")
-    runProgram();
-  })
-  })
- 
- } } catch (error){
-    console.log(error)
-  }
-  myFunc();
+    await inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "first_name",
+        message: "What is the employee's first name?",
+      },
+      {
+        type: "input",
+        name: "last_name",
+        message: "What is your employee's last name?"
+      },
+      {
+        type: "list",
+        name: "title",
+        message: "Select your employee's role from the list below",
+        choices: roles
+      },
+      {
+        type: "list",
+        name: "manager_id",
+        message: "What is your employee's maanger's id?",
+        choices: employeeManagers,
+        default: "null"
+      },
+    ])
+    .then((response) => {
+      connection.query(
+      'INSERT INTO employee, role SET ?',
+      {
+        first_name: response.first_name,
+        last_name: response.last_name,
+        manager_id: response.manager_id,
+        title: response.title
+      },
+      (err) => {
+        if (err) throw err;
+        console.log("successfully added employee")
+        runProgram();
+      })
+    })
+    myFunc();
+    } 
+  } catch (error){
+        console.log(error)
+        }
 }
 
 const viewAllEmployees = () => {
