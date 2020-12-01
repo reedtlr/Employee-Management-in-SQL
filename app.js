@@ -3,6 +3,10 @@ const mysql = require("mysql")
 const cTable = require('console.table')
 const db = require("./db/db.js")
 const connection = require('./config/connect');
+const util = require('util');
+
+//promisifying the connection for async await
+connection.query = util.promisify(connection.query);
 
   const runProgram = () => {
     inquirer
@@ -63,11 +67,11 @@ const connection = require('./config/connect');
       });
   };
 
-const addEmployee = () => {
+const addEmployee = async () => {
 
-  const empWithRoles = db.getEmployeesWithRoles();
+  const empWithRoles = await db.getEmployeesWithRoles();
   const roles = empWithRoles.map(role => role.title);
-  const managers = empWithRoles.filter(emp => emp.manager_id == null).map(employee => ({value: employee.id, name: employee.last_name}))
+  const managers = empWithRoles.filter(employee => employee.manager_id == null).map(employee => ({value: employee.id, name: employee.last_name}))
   
   inquirer
     .prompt([
@@ -96,12 +100,12 @@ const addEmployee = () => {
     ])
     .then((response) => {
      connection.query(
-      'INSERT INTO employee SET ?',
+      'INSERT INTO employee LEFT JOIN role ON role.title = role.id  SET ?',
       {
-        first_name: addQs.first_name,
-        last_name: addQs.last_name,
-        manager_id: addQs.manager_id,
-        title: addQs.title
+        first_name: response.first_name,
+        last_name: response.last_name,
+        manager_id: response.manager_id,
+        role_id: response.title
       },
       (err) => {
         if (err) throw err;
@@ -122,8 +126,8 @@ const viewAllEmployees = () => {
       );
 }
 
-const viewAllRoles = () => {
-  let dbRoles = db.getRoles();
+const viewAllRoles = async () => {
+  const dbRoles = await db.getRoles();
   console.table(dbRoles);
   runProgram();
 }

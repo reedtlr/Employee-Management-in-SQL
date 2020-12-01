@@ -1,6 +1,7 @@
 var mysql = require("mysql");
 const util = require('util');
-//promisifying the connection for async await
+
+// // //promisifying the connection for async await
 // connection.query = util.promisify(connection.query);
 
 var connection = mysql.createConnection({
@@ -16,5 +17,6 @@ connection.connect(err => {
 if (err) throw err;
 console.log("connected as id " + connection.threadId + "\n");
 });
+
 
 module.exports = connection;
