@@ -63,50 +63,13 @@ const connection = require('./config/connect');
       });
   };
 
-const addEmployee = async () => {
-  try {
-    // const getRoles = await connection.query( 'SELECT * FROM role');
-    // console.log(getRoles);
+const addEmployee = () => {
+
+  const empWithRoles = db.getEmployeesWithRoles();
+  const roles = empWithRoles.map(role => role.title);
+  const managers = empWithRoles.filter(emp => emp.manager_id == null).map(employee => ({value: employee.id, name: employee.last_name}))
   
-    const firstQuery =  () => {
-      return new Promise (resolve => {
-        connection.query(
-          'SELECT * FROM role',
-          async (err, res) => {
-            if (err) throw err;
-            const roles = res.map(role => role.title)
-            return roles;
-          }, resolve)  
-      })
-    }
-   
-
-     const getEmps = await connection.query('SELECT * FROM employee', (err, results) => {
-      if(err) throw err;
-      const managers = results.filter(emp => emp.manager_id == null).map(employee => ({value: employee.id, name: employee.last_name}))
-
-      return managers;
-     })
-    
-    // const secondQuery = () => {
-    //   return new Promise (resolve => {
-    //     connection.query(
-    //       'SELECT * FROM employee',
-    //       async (err, managerRes) => {
-    //         if (err) throw err;
-    //         const employeeManagers = managerRes.filter(employee => {
-    //           if (employee.manager_id == null){
-    //           return employee;
-    //         }})
-    //       }, resolve) 
-    //   })
-    // }
-    
-    // const myFunc = async () => {
-        // let firstData = await firstQuery()
-        // let secondData = await secondQuery()
-
-   const addQs = await inquirer
+  inquirer
     .prompt([
       {
         type: "input",
@@ -121,19 +84,18 @@ const addEmployee = async () => {
       {
         type: "list",
         message: "Select your employee's role from the list below",
-        choices: firstQuery, 
+        choices: roles, 
         name: "title"
       },
       {
         type: "list",
         name: "manager_id",
         message: "What is your employee's maanger's id?",
-        choices: getEmps
+        choices: managers
       },
-    ]);
-    // .then((response) => {
-
-     await connection.query(
+    ])
+    .then((response) => {
+     connection.query(
       'INSERT INTO employee SET ?',
       {
         first_name: addQs.first_name,
@@ -146,13 +108,7 @@ const addEmployee = async () => {
         console.log("successfully added employee")
         runProgram();
       })
-    // })
-
-    // }  
-    // myFunc();
-  } catch (error){
-        console.log(error)
-        }
+    })
 }
 
 const viewAllEmployees = () => {
@@ -167,14 +123,9 @@ const viewAllEmployees = () => {
 }
 
 const viewAllRoles = () => {
-  connection.query(
-      'SELECT * FROM role',
-      (err, res) => {
-        if (err) throw err;
-        console.table(res);
-        runProgram();
-      }
-    );
+  let dbRoles = db.getRoles();
+  console.table(dbRoles);
+  runProgram();
 }
 
 const viewAllDepartments = () => {
