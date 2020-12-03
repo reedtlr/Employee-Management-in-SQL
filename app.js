@@ -98,21 +98,27 @@ const addEmployee = async () => {
         choices: managers
       },
     ])
-    .then((response) => {
-     connection.query(
-      'INSERT INTO employee LEFT JOIN role ON role.title = role.id  SET ?',
-      {
-        first_name: response.first_name,
-        last_name: response.last_name,
-        manager_id: response.manager_id,
-        role_id: response.title
-      },
-      (err) => {
-        if (err) throw err;
-        console.log("successfully added employee")
-        runProgram();
+    .then((res) => {
+      connection.query(
+        `SELECT role.id from role LEFT JOIN employee ON role.id = employee.role_id where title = "${res.title}"`,
+      ).then((response) => {
+        console.log(response[0].id)
+        connection.query(
+          'INSERT INTO employee SET ?',
+          {
+            first_name: res.first_name,
+            last_name: res.last_name,
+            manager_id: res.manager_id,
+            role_id: response[0].id
+          },
+          (err) => {
+            if (err) throw err;
+            console.log("successfully added employee")
+            runProgram();
+          })
+        })
       })
-    })
+    
 }
 
 const viewAllEmployees = () => {
