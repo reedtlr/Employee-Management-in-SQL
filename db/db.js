@@ -10,8 +10,8 @@ class db {
     getRoles() {
         return this.connection.query("SELECT * FROM role");
     }
-    getEmpsWithRoles() {
-        return this.connection.query("SELECT employees.id, employees.first_name, employees.last_name, roles.title, manager_id FROM employees INNER JOIN roles ON employees.role_id = roles.id");
+    getDepartments() {
+        return this.connection.query("SELECT * FROM department");
     }
 }
 

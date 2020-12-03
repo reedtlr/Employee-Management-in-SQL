@@ -133,15 +133,10 @@ const viewAllRoles = async () => {
   runProgram();
 }
 
-const viewAllDepartments = () => {
-  connection.query(
-      'SELECT * FROM department',
-      (err, res) => {
-        if (err) throw err;
-        console.table(res);
-        runProgram();
-      }
-    );
+const viewAllDepartments = async () => {
+  const dbDept = await db.getDepartments();
+  console.table(dbDept);
+  runProgram();
 }
 
 const addRole = async () => {
