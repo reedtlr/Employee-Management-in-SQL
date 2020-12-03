@@ -36,6 +36,16 @@ class db {
             id: joinQ.updateID
         }]);
     }
+    updateEmployeeManager(updateMngrs) {
+        return this.connection.query("UPDATE employee SET ? WHERE ?",
+            [{
+                manager_id: updateMngrs.updateMngrID,
+            },
+            {
+                id: updateMngrs.updateMngr
+            }
+            ]);
+    }
 }
 
 module.exports = new db(connection);

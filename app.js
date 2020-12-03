@@ -214,4 +214,33 @@ const changeEmployeeRole = async () => {
     
 }
 
+const changeEmployeeManager = async () => {
+
+  const empWithRoles = await db.getEmployeesWithRoles();
+  const employees = empWithRoles.map(employee => ({value: employee.id, name: employee.last_name}))
+  const managers = empWithRoles.filter(employee => employee.manager_id == null).map(employee => ({value: employee.id, name: employee.last_name}))
+
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "updateMngr",
+        message: "Which employee do you want to update their manager?",
+        choices: employees
+      },
+      {
+        type: "list",
+        message: "Which maanger do you want to assign to the employee?",
+        choices: managers, 
+        name: "updateMngrID"
+      },
+    ])
+    .then((res) => {
+      db.updateEmployeeManager(res);
+        console.log("successfully updated employee's manager")
+        runProgram();
+      })
+    
+}
+
 runProgram();
