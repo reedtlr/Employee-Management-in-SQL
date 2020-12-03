@@ -25,4 +25,4 @@ Download the repository. Make sure you have node.js installed. Open your termina
 To run the application
 ``` node app.js ```
 
-[Employee Management Demo GIF](https://github.com/reedtlr/Employee-Management-in-SQL/blob/main/assets/demo.gif)
+![Employee Management Demo GIF](./assets/demo.gif)
