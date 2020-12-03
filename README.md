@@ -9,7 +9,7 @@ Employee management application using MySQL
 * [Install](#install)
 
 ## General info
-This is a employee management program for adding, editing, and deleting employees based on their role, department, and manager.  
+This is a employee management program for handling employees, maangers, roles, and departments. You can view all employees with roles, view all departments, view all roles, add an employee, update an employee's role, and update an employee's manager.   
 	
 ## Technologies
 Project is created with:
@@ -24,3 +24,5 @@ Download the repository. Make sure you have node.js installed. Open your termina
 
 To run the application
 ``` node app.js ```
+
+[Employee Management Demo GIF](./assets/demo.gif)
