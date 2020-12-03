@@ -121,15 +121,10 @@ const addEmployee = async () => {
     
 }
 
-const viewAllEmployees = () => {
-    connection.query(
-        'SELECT * FROM employee',
-        (err, res) => {
-          if (err) throw err;
-          console.table(res);
-          runProgram();
-        }
-      );
+const viewAllEmployees = async () => {
+  const dbEmpsRoles = await db.getEmployeesWithRoles();
+  console.table(dbEmpsRoles);
+  runProgram();
 }
 
 const viewAllRoles = async () => {
