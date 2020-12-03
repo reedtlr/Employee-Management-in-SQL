@@ -185,4 +185,33 @@ const addDepartment = async () => {
       })
 }
 
+const changeEmployeeRole = async () => {
+
+  const empWithRoles = await db.getEmployeesWithRoles();
+  const roles = empWithRoles.map(role => ({value: role.id, name: role.title}));
+  const employees = empWithRoles.map(employee => ({value: employee.id, name: employee.last_name}))
+  
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "updateID",
+        message: "Which employee do you want to update their role?",
+        choices: employees
+      },
+      {
+        type: "list",
+        message: "Select their new role",
+        choices: roles, 
+        name: "updateRoleID"
+      },
+    ])
+    .then((res) => {
+      db.updateEmployeeRole(res);
+        console.log("successfully updated employee's role")
+        runProgram();
+      })
+    
+}
+
 runProgram();

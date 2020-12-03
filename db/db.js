@@ -28,6 +28,14 @@ class db {
                 name: department.name,
             });
     }
+    updateEmployeeRole(joinQ) {
+        return this.connection.query("UPDATE employee SET ? WHERE ?", [{
+            role_id: joinQ.updateRoleID
+        },
+        {
+            id: joinQ.updateID
+        }]);
+    }
 }
 
 module.exports = new db(connection);
