@@ -9,7 +9,7 @@ Employee management application using MySQL
 * [Install](#install)
 
 ## General info
-This is a employee management program for handling employees, maangers, roles, and departments. You can view all employees with roles, view all departments, view all roles, add an employee, update an employee's role, and update an employee's manager.   
+This is a employee management program for handling employees, managers, roles, and departments. You can view all employees with roles, view all departments, view all roles, add an employee, update an employee's role, and update an employee's manager.   
 	
 ## Technologies
 Project is created with:
