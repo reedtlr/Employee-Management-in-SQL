@@ -140,13 +140,8 @@ const viewAllDepartments = async () => {
 }
 
 const addRole = async () => {
-    
-  connection.query('SELECT * FROM department',
-    async (err, dRes) => {
-      if (err) throw err;
-      const departmentChoice = dRes.map(department => department.name)
-    }, resolve)  
-  
+  const departments = await db.getDepartments();
+  const deptChoice = departments.map(department => ({value: department.id, name: department.name}))
   
   await inquirer
     .prompt([
@@ -164,23 +159,14 @@ const addRole = async () => {
         type: "list",
         name: "department_id",
         message: "Which department should house this role?",
-        choices: departmentChoice
+        choices: deptChoice
       },
     ])
     .then((response) => {
-      connection.query(
-      'INSERT INTO role SET ?',
-      {
-        title: response.title,
-        salary: response.salary,
-        department_id: response.department_id
-      },
-      (err) => {
-        if (err) throw err;
+      db.addRole(response);
         console.log("successfully added a role")
         runProgram();
       })
-    })
 }
 
 

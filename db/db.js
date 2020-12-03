@@ -13,6 +13,14 @@ class db {
     getDepartments() {
         return this.connection.query("SELECT * FROM department");
     }
+    addRole(addRole) {
+        return this.connection.query("INSERT INTO role SET ?",
+            {
+                title: addRole.title,
+                salary: addRole.salary,
+                department_id: addRole.department_id,
+            });
+    }
 }
 
 module.exports = new db(connection);
