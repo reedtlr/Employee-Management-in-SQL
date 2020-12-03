@@ -21,6 +21,13 @@ class db {
                 department_id: addRole.department_id,
             });
     }
+    addDepartment(department) {
+        return this.connection.query(
+            "INSERT INTO department SET ?",
+            {
+                name: department.name,
+            });
+    }
 }
 
 module.exports = new db(connection);

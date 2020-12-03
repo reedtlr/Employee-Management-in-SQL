@@ -169,5 +169,20 @@ const addRole = async () => {
       })
 }
 
+const addDepartment = async () => {
+   inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is the name of the department that you would like to add?",
+      },
+    ])
+    .then((response) => {
+      db.addDepartment(response);
+        console.log("successfully added a department")
+        runProgram();
+      })
+}
 
 runProgram();
